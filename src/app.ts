@@ -7,6 +7,7 @@ import { logger } from './utils/logger';
 import { errorHandler } from './middlewares/errorHandler';
 import { notFoundHandler } from './middlewares/notFoundHandler';
 import { healthRoute } from './routes/health';
+import { importRoute } from './routes/import';
 
 export const createApp = async (): Promise<express.Application> => {
   const app = express();
@@ -57,6 +58,9 @@ export const createApp = async (): Promise<express.Application> => {
     res.setHeader('API-Version', config.api.version);
     next();
   });
+
+  // Import routes
+  app.use(`/${config.api.version}/import`, importRoute);
 
   // Placeholder for future API routes
   app.get(`/${config.api.version}`, (_req, res) => {
