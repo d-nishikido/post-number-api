@@ -1,0 +1,49 @@
+version: '3.8'
+
+# Development overrides
+services:
+  # PostgreSQL Database - Development settings
+  db:
+    ports:
+      - "5432:5432"  # Expose for local development tools
+    environment:
+      POSTGRES_DB: post_number_api_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  # Node.js Application - Development settings
+  app:
+    build:
+      target: development
+    container_name: post-number-app-dev
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: post_number_api_dev
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      LOG_LEVEL: debug
+    volumes:
+      - ./src:/app/src:cached
+      - ./package.json:/app/package.json:cached
+      - ./tsconfig.json:/app/tsconfig.json:cached
+      - ./nodemon.json:/app/nodemon.json:cached
+      - node_modules:/app/node_modules
+    ports:
+      - "3000:3000"      # API port
+      - "9229:9229"      # Node.js debugging port
+    command: npm run dev
+
+  # Nginx - Development settings
+  nginx:
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    environment:
+      NGINX_ENVSUBST_TEMPLATE_SUFFIX: ".conf"
+      NGINX_ENVSUBST_OUTPUT_DIR: "/etc/nginx"
+
+volumes:
+  node_modules:
+    driver: local
