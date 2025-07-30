@@ -96,7 +96,7 @@ docker compose exec db psql -U postgres -d post_number_api_dev
 
 ## API Endpoints (Current)
 
-- `GET /health` - Health check endpoint
+- `GET /health` - Health check endpoint with database monitoring
 - `GET /v1` - API information endpoint
 
 ## Planned API Endpoints (From Design Doc)
@@ -121,9 +121,10 @@ To import Japanese postal code data:
 ## Testing
 
 - **Framework**: Jest with TypeScript support
-- **Current tests**: Health check endpoint tests
+- **Current tests**: Health check endpoint tests, database connection tests
 - **Coverage**: Run `npm run test:coverage`
 - **Test files**: Located in `tests/` directory
+- **Mocking**: Database operations are mocked for testing
 
 ## Code Quality
 
@@ -136,7 +137,6 @@ To import Japanese postal code data:
 
 1. **ESLint v9**: Currently using legacy config with `ESLINT_USE_FLAT_CONFIG=false` flag
 2. **Docker Compose**: README mentions both `docker-compose` and `docker compose` commands
-3. **Database connection**: Not yet implemented in the Express app (TODO)
 
 ## Development Status
 
@@ -146,9 +146,11 @@ To import Japanese postal code data:
 - Database initialization scripts
 - Development tooling configuration
 - Documentation
+- Database connection layer with initialization and health monitoring
+- Application lifecycle management (startup/shutdown)
+- Health check endpoint with database monitoring
 
 🚧 **TODO/Next Steps:**
-- Implement database connection layer
 - Create address search endpoints
 - Add rate limiting middleware  
 - Implement comprehensive error handling
@@ -159,8 +161,8 @@ To import Japanese postal code data:
 ## Git Workflow
 
 - **Main branch**: `main`
-- **Feature branches**: `feature-{issue-number}` (e.g., `feature-3`)
-- **Current branch**: `feature-3` (Docker environment setup)
+- **Feature branches**: `feature-{issue-number}` (e.g., `feature-8`)
+- **Current branch**: `feature-8` (Database connection layer implementation)
 
 ## Deployment
 
